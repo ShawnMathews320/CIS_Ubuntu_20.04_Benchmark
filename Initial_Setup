@@ -2,10 +2,28 @@
 - Directories used for system wide functions should be placed on separate partitions for further protection.
 - Users' data can be stored on separate partitions and have stricter mount options.
 - If the system is already installed, it is recommended that a full backup be performed before repartitioning the system.
-- Note: If you are repartitioning a system that has already been installed, make sure the data 
-has been copied over to the new partition, unmount it and then remove the data from the 
-directory that was in the old partition. Otherwise it will still consume space in the old 
-partition that will be masked when the new filesystem is mounted.
+- Note: If you are repartitioning a system that has already been installed, make sure the data  has been copied over to the new partition, unmount it and then remove the data from 
+the directory that was in the old partition. Otherwise it will still consume space in the old partition that will be masked when the new filesystem is mounted.
 
 1.1.1 Disable Unused Filesystems
--
+- Native Linux file systems are designed to ensure that built-in security controls function as expected. 
+- Non-native filesystems can lead to unexpected consequences to both the security and functionality of the system and should be used with caution.
+- Many filesystems are created for niche use cases and are not maintained and supported as the operating systems are updated and patched.
+
+1.1.1.1 Ensure Mounting of cramfs Filesystems is Disabled (Automated)
+- The cramfs filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems. A cramfs image can be used without having to first decompress the 
+image.
+- Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it.
+
+-- Run the following commands and verify the output is as indicated:
+# modprobe -n -v cramfs | grep -E '(cramfs|install)'
+install /bin/true
+# lsmod | grep cramfs
+<No output>
+
+-- Remediation:
+Edit or create a file in the /etc/modprobe.d/ directory ending in .conf
+Example: vim /etc/modprobe.d/cramfs.conf or sudo nano /etc/modprobe.d/cramfs.conf and add the following line:
+install cramfs /bin/true
+Run the following command to unload the cramfs module:
+# rmmod cramfs
