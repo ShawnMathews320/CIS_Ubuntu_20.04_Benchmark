@@ -27,3 +27,7 @@ Example: vim /etc/modprobe.d/cramfs.conf or sudo nano /etc/modprobe.d/cramfs.con
 install cramfs /bin/true
 Run the following command to unload the cramfs module:
 # rmmod cramfs
+
+1.1.1.2 Ensure Mounting of freevxfs Filesystems is Disabled (Automatic)
+- The freevxfs filesystem type is a free version of the Veritas type filesystem. This is the primary filesystem type for HP-UX operating systems.
+- Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
