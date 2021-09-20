@@ -1,1 +1,11 @@
+1.1 Filesystem Configuration
+- Directories used for system wide functions should be placed on separate partitions for further protection.
+- Users' data can be stored on separate partitions and have stricter mount options.
+- If the system is already installed, it is recommended that a full backup be performed before repartitioning the system.
+- Note: If you are repartitioning a system that has already been installed, make sure the data 
+has been copied over to the new partition, unmount it and then remove the data from the 
+directory that was in the old partition. Otherwise it will still consume space in the old 
+partition that will be masked when the new filesystem is mounted.
 
+1.1.1 Disable Unused Filesystems
+-
