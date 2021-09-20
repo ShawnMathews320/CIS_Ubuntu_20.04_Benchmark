@@ -23,7 +23,7 @@ install /bin/true
 
 -- Remediation:
 Edit or create a file in the /etc/modprobe.d/ directory ending in .conf
-Example: vim /etc/modprobe.d/cramfs.conf or sudo nano /etc/modprobe.d/cramfs.conf and add the following line:
+Example: vi /etc/modprobe.d/cramfs.conf or sudo nano /etc/modprobe.d/cramfs.conf and add the following line:
 install cramfs /bin/true
 Run the following command to unload the cramfs module:
 # rmmod cramfs
@@ -31,3 +31,53 @@ Run the following command to unload the cramfs module:
 1.1.1.2 Ensure Mounting of freevxfs Filesystems is Disabled (Automatic)
 - The freevxfs filesystem type is a free version of the Veritas type filesystem. This is the primary filesystem type for HP-UX operating systems.
 - Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+
+-- Run the following commands and verify the output is as indicated:
+# modprobe -n -v freevxfs | grep -E '(freevxfs|install)'
+install /bin/true
+# lsmod | grep freevxfs
+<No output>
+
+-- Remediation:
+Edit or create a file in the /etc/modprobe.d/ directory ending in .conf
+Example: vi /etc/modprobe.d/freevxfs.conf or sudo nano /etc/modprobe.d/freevxfs.conf
+and add the following line:
+install freevxfs /bin/true
+Run the following command to unload the freevxfs module:
+# rmmod freevxfs
+
+1.1.1.3 Ensure Mounting of jffs2 Filesystems is Disabled (Automated)
+- The jffs2 (journaling flash filesystem 2) filesystem type is a log-structured filesystem used in flash memory devices.
+- Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+
+-- Run the following commands and verify the output is as indicated:
+# modprobe -n -v jffs2 | grep -E '(jffs2|install)'
+install /bin/true
+# lsmod | grep jffs2
+<No output>
+
+-- Remediation:
+Edit or create a file in the /etc/modprobe.d/ directory ending in .conf
+Example: vi /etc/modprobe.d/jffs2.conf
+and add the following line:
+install jffs2 /bin/true
+Run the following command to unload the jffs2 module:
+# rmmod jffs2
+
+1.1.1.4 Ensure Mounting of hfs Filesystem is Disabled (Automatic)
+- The hfs filesystem type is a hierarchical filesystem that allows you to mount Mac OS filesystems.
+- Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+
+-- Run the following commands and verify the output is as indicated:
+# modprobe -n -v hfs | grep -E '(hfs|install)'
+install /bin/true
+# lsmod | grep hfs
+<No output>
+
+-- Remediation:
+Edit or create a file in the /etc/modprobe.d/ directory ending in .conf
+Example: vi /etc/modprobe.d/hfs.conf
+and add the following line:
+install hfs /bin/true
+Run the following command to unload the hfs module:
+# rmmod hf
